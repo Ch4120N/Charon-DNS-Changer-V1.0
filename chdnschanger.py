@@ -255,4 +255,4 @@ class CharonDNSChangerV1:
                     return self.connected_ssid
 
 
-# CharonDNSChangerV1()
+CharonDNSChangerV1()
