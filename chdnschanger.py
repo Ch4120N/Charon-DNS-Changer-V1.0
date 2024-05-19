@@ -195,6 +195,7 @@ class CharonDNSChangerV1:
         else:
             self.clear_screen()
             pass
+
     def option_selected(self, select):
         for i in config.DNS_DICTIONERY.keys():
             indexs = config.DNS_DICTIONERY.get(select)
