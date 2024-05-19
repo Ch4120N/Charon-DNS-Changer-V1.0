@@ -87,6 +87,7 @@ import os
 import subprocess
 import platform
 import sys
+import ctypes
 import webbrowser
 import socket
 import ctypes
@@ -102,50 +103,69 @@ except:
 
 class CharonDNSChangerV1:
     INTERFACE_SELECTED = ''
+    SYSTEM = None
     def __init__(self):
-        self.INTERFACE_SELECTED = self.GetInterfaceName()
-        while True:
-            try:
-                print(AsciiArt.Logo)
-                print(Menu.MenuPrimary)
-                choice = str(input(Fore.LIGHTMAGENTA_EX+"Select the option [1-99]:> "))
-                # self.clear_screen()
-                other_choice = self.getdns(choice)
-                if choice == "97":
-                    self.customdns()
-                elif choice == "98":
-                    print(AsciiArt.Logo)
-                    self.Restoration_DNS()
-                    print(f"\n{brak}[{Fore.GREEN}+{brak}]{Fore.CYAN} Reset All DNS To Default Completed Successfuly.")
-                    self.exit_yn()
-                elif choice == "99":
-                    sys.exit(Fore.RED+'[!] Shuting Down !')
-                
-                elif other_choice:
-                    self.clear_screen()
-                    print(AsciiArt.Logo)
-                    dns = self.option_selected(other_choice)
-                    self.set_dns(dns[0], dns[1])
-                    print(f"{brak}[{Fore.GREEN}+{brak}]{Fore.CYAN} The '{other_choice}' Have Been Set as DNS")
-                    self.exit_yn()
-                    # print(indexs)
-                
-                else:
-                    print(Fore.RED+"[-] Please Select Valid Option")
-                    input("\n[!] Press Enter To Continue ....")
-                    self.clear_screen()
-            except (KeyboardInterrupt, TypeError):
+        if self.Check_AdminPriviliges():
+            self.Check_System()
+            self.INTERFACE_SELECTED = self.GetInterfaceName()
+            
+            while True:
                 try:
-                    input("\n[!] Press Enter To Continue ....")
-                except:
-                    sys.exit(Fore.RED+'\n[!] Shutting Down !')
+                    print(AsciiArt.Logo)
+                    print(Menu.MenuPrimary)
+                    choice = str(input(Fore.LIGHTMAGENTA_EX+"Select the option [1-99]:> "))
+                    # self.clear_screen()
+                    other_choice = self.getdns(choice)
+                    if choice == "97":
+                        self.customdns()
+                    elif choice == "98":
+                        self.clear_screen()
+                        print(AsciiArt.Logo)
+                        self.Restoration_DNS()
+                        print(f"\n{brak}[{Fore.GREEN}+{brak}]{Fore.CYAN} Reset All DNS To Default Completed Successfuly.")
+                        self.exit_yn()
+                    elif choice == "99":
+                        sys.exit(Fore.RED+'[!] Shuting Down !')
+                    
+                    elif other_choice:
+                        self.clear_screen()
+                        print(AsciiArt.Logo)
+                        dns = self.option_selected(other_choice)
+                        self.set_dns(dns[0], dns[1])
+                        print(f"{brak}[{Fore.GREEN}+{brak}]{Fore.CYAN} The '{other_choice}' Have Been Set as DNS")
+                        self.exit_yn()
+                        # print(indexs)
+                    
+                    else:
+                        print(Fore.RED+"[-] Please Select Valid Option")
+                        input("\n[!] Press Enter To Continue ....")
+                        self.clear_screen()
+                except (KeyboardInterrupt, TypeError):
+                    try:
+                        input("\n[!] Press Enter To Continue ....")
+                    except:
+                        sys.exit(Fore.RED+'\n[!] Shutting Down !')
 
-                self.clear_screen()
+                    self.clear_screen()
+        else:
+            sys.exit(Fore.RED+"[-] You need to use the root user in Linux or administrator user in Windows.")
+            
 
 
         # print(other_choice)
         # elif self.getdns(choice):
-    
+    def Check_AdminPriviliges(self):
+        try:
+            is_admin = os.getuid() == 0
+        except AttributeError:
+            is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+        
+        return is_admin
+    def Check_System(self):
+        if "win" in platform.system().lower():
+            self.SYSTEM = "win"
+        else:
+            self.SYSTEM = "linux"
     def customdns(self):
         chd = ''
         while True:
@@ -187,8 +207,11 @@ class CharonDNSChangerV1:
         else:
             os.system('clear')
     def set_dns(self, primery_DNS:str, secoundry_DNS:str):
-        subprocess.getoutput(f'netsh interface ip set dns name="{self.INTERFACE_SELECTED}" static "{primery_DNS}"')
-        subprocess.getoutput(f'netsh interface ip add dns name="{self.INTERFACE_SELECTED}" "{secoundry_DNS}" index=2')
+        if self.SYSTEM == "win":
+            subprocess.getoutput(f'netsh interface ip set dns name="{self.INTERFACE_SELECTED}" static "{primery_DNS}"')
+            subprocess.getoutput(f'netsh interface ip add dns name="{self.INTERFACE_SELECTED}" "{secoundry_DNS}" index=2')
+        else:
+            subprocess.getoutput(f'echo -e "# Generated By Charon DNS Changer" > /etc/resolv.conf && echo -e "nameserver {primery_DNS}" >> /etc/resolv.conf && echo -e "nameserver {secoundry_DNS}" >> /etc/resolv.conf')
     
     def getdns(self, select:str):
         other_choice = []
@@ -201,31 +224,35 @@ class CharonDNSChangerV1:
             return
 
     def Restoration_DNS(self):
-        with open('Settings.json', 'r') as f:
-            data = f.read()
-        
-        obj = json.loads(data)
-        for i in obj:
-            if self.INTERFACE_SELECTED in ', '.join(str(x) for x in i.values()):
-                pattern = ', '.join(str(x) for x in i.values())
-                data_listed = pattern.split(', ')
-        if self.INTERFACE_SELECTED == data_listed[0]:
-            self.set_dns(data_listed[1], data_listed[2])
+        if self.SYSTEM == "win":
+            with open('Settings.json', 'r') as f:
+                data = f.read()
+            
+            obj = json.loads(data)
+            for i in obj:
+                if self.INTERFACE_SELECTED in ', '.join(str(x) for x in i.values()):
+                    pattern = ', '.join(str(x) for x in i.values())
+                    data_listed = pattern.split(', ')
+            if self.INTERFACE_SELECTED == data_listed[0]:
+                self.set_dns(data_listed[1], data_listed[2])
+        else:
+            self.set_dns('1.1.1.1', '1.0.0.1')
 
 
     def GetInterfaceName(self):
-        if socket.gethostbyname(socket.gethostname()) == "127.0.0.1":
-            # print("Please Connect To A Network")
-            print(Fore.CYAN+"#"*50+"Connection Error"+"#"*50, Fore.LIGHTRED_EX+"\nPlease Connect To A Network ( Lan or Wifi )\nShutdown!")
-            sys.exit(1)
-        else:
-            current_network = subprocess.getoutput('netsh interface show interface').split('\n')
-            ssid_line = [x for x in current_network if 'Enabled' in x and "Connected" in x]
-            if ssid_line:
-                ssid_list = ssid_line[0].split()
-                self.connected_ssid = ssid_list[-1].strip()
-                self.INTERFACE_SELECTED = self.connected_ssid
-                return self.connected_ssid
+        if self.SYSTEM == "win":
+            if socket.gethostbyname(socket.gethostname()) == "127.0.0.1":
+                # print("Please Connect To A Network")
+                print(Fore.CYAN+"#"*50+"Connection Error"+"#"*50, Fore.LIGHTRED_EX+"\nPlease Connect To A Network ( Lan or Wifi )\nShutdown!")
+                sys.exit(1)
+            else:
+                current_network = subprocess.getoutput('netsh interface show interface').split('\n')
+                ssid_line = [x for x in current_network if 'Enabled' in x and "Connected" in x]
+                if ssid_line:
+                    ssid_list = ssid_line[0].split()
+                    self.connected_ssid = ssid_list[-1].strip()
+                    self.INTERFACE_SELECTED = self.connected_ssid
+                    return self.connected_ssid
 
 
-CharonDNSChangerV1()
+# CharonDNSChangerV1()
