@@ -108,7 +108,7 @@ class CharonDNSChangerV1:
         if self.Check_AdminPriviliges():
             self.Check_System()
             self.INTERFACE_SELECTED = self.GetInterfaceName()
-            # print(self.INTERFACE_SELECTED)
+            
             while True:
                 try:
                     print(AsciiArt.Logo)
