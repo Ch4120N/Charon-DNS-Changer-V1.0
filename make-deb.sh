@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Make Deb Package for Zphisher (^.^)
+# Make Deb Package for Charon-DNS-Changer (^.^)
 _PACKAGE=Charon-DNS-Changer
+_DIR=Charon-DNS-Changer-V1.0
 _VERSION=2.4.1
 _ARCH="all"
 PKG_NAME="${_PACKAGE}_${_VERSION}_${_ARCH}.deb"
@@ -20,14 +21,14 @@ fi
 
 _depend+="python3-full, python3-pip, python3-colorama"
 _bin_dir+="usr/bin"
-_opt_dir+="opt/${_PACKAGE}"
+_opt_dir+="opt/${_DIR}"
 
 if [[ -d "build_env" ]]; then rm -fr build_env; fi
 mkdir -p build_env
 mkdir -p ./build_env/${_bin_dir} ./build_env/$_opt_dir ./build_env/DEBIAN 
 
 cat <<- CONTROL_EOF > ./build_env/DEBIAN/control
-Package: ${_PACKAGE}
+Package: ${_DIR}
 Version: ${_VERSION}
 Architecture: ${_ARCH}
 Maintainer: @Ch4120N
@@ -44,8 +45,8 @@ PRERM_EOF
 
 chmod 755 ./build_env/DEBIAN
 chmod 755 ./build_env/DEBIAN/{control,prerm}
-cp -fr scripts/launch.sh ./build_env/$_bin_dir/$_PACKAGE
-chmod 755 ./build_env/$_bin_dir/$_PACKAGE
+cp -fr scripts/launch.sh ./build_env/$_bin_dir/chdnschanger
+chmod 755 ./build_env/$_bin_dir/chdnschanger
 cp -fr .imgs/ log/ modules/ LICENCE README.md chdnschanger.py requirements.txt Settings.json ./build_env/$_opt_dir
 dpkg-deb --build ./build_env ${PKG_NAME}
 rm -fr ./build_env
