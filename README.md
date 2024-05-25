@@ -21,13 +21,14 @@
 ## ⚙️ Installation
 
 ```bash
-sudo apt install python3 python git -y
+sudo apt install python3-full python-is-python3 git -y
 git clone https://github.com/Ch4120N/Charon-DNS-Changer-V1.0
 chmod 755 -R Charon-DNS-Changer-V1.0
 cd Charon-DNS-Changer-V1.0
 python -m pip install -r requirements.txt
 python chdnschanger.py
 ```
+If you using `Kali Linux` remove python-is-python3 from line 1.
 
 ## Supported Operating Systems
 - [X] Debian
