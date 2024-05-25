@@ -46,6 +46,6 @@ chmod 755 ./build_env/DEBIAN
 chmod 755 ./build_env/DEBIAN/{control,prerm}
 cp -fr scripts/launch.sh ./build_env/$_bin_dir/$_PACKAGE
 chmod 755 ./build_env/$_bin_dir/$_PACKAGE
-cp -fr .imgs/ log/ modules/ LICENSE README.md chdnschanger.py requirements.txt Settings.json ./build_env/$_opt_dir
+cp -fr .imgs/ log/ modules/ LICENCE README.md chdnschanger.py requirements.txt Settings.json ./build_env/$_opt_dir
 dpkg-deb --build ./build_env ${PKG_NAME}
 rm -fr ./build_env
