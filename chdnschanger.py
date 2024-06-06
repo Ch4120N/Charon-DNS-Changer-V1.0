@@ -210,8 +210,10 @@ class CharonDNSChangerV1:
     def set_dns(self, primery_DNS:str, secoundry_DNS:str):
         with open('log/log.log', 'w') as log:
             if self.SYSTEM == "win":
-                subprocess.Popen(f'netsh interface ip set dns "{self.INTERFACE_SELECTED}" static {primery_DNS}', shell=True,stdout=log, stderr=log)
-                subprocess.Popen(f'netsh interface ip add dns "{self.INTERFACE_SELECTED}" {secoundry_DNS} index=2', shell=True,stdout=log, stderr=log)
+                subprocess.getoutput(f'netsh interface ip set dns "{self.INTERFACE_SELECTED}" static {primery_DNS}')
+                subprocess.getoutput(f'netsh interface ip add dns "{self.INTERFACE_SELECTED}" {secoundry_DNS} index=2')
+                # subprocess.Popen(f'netsh interface ip set dns "{self.INTERFACE_SELECTED}" static {primery_DNS}', shell=True,stdout=log, stderr=log)
+                # subprocess.Popen(f'netsh interface ip add dns "{self.INTERFACE_SELECTED}" {secoundry_DNS} index=2', shell=True,stdout=log, stderr=log)
             else:
                 try:
                     shutil.move('/etc/resolv.conf', './log/resolv.conf.bak')
