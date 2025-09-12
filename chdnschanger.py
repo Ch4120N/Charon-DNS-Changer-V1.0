@@ -92,9 +92,9 @@ import shutil
 import socket
 import ctypes
 import json
+import modules.globalConfig as globalConfig
 from modules.banner import Menu, AsciiArt, BRACKETS_COLOR
 from modules.config import Config as config
-from modules.globalConfig import OS, INTERFACE
 from modules.utils import *
 from modules.decorators import INFO, INPUT, ERROR, SUCCESS
 try:
@@ -298,8 +298,8 @@ class CharonDNSChanger:
             ERROR('You need to run this script as the root user in Linux/Or administrator user in Windows')
             return
         
-        OS = self.check_os()
-        INTERFACE = self.getPrimaryInterface()
+        globalConfig.OS = self.check_os()
+        globalConfig.INTERFACE = self.getPrimaryInterface()
         
         while True:
             clear_screen()
@@ -321,7 +321,7 @@ class CharonDNSChanger:
         return is_admin
     
     def getPrimaryInterface(self):
-        if (OS == 'win'):
+        if (globalConfig.OS == 'win'):
             if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
                 ERROR('Connection error: Please connect to a network (WiFi or Len) to get IP')
                 return
