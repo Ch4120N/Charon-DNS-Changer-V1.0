@@ -363,6 +363,7 @@ class CharonDNSChanger:
             except:
                 return False
             
+            first_query = f'echo "nameserver {primaryDNS}"'
             linuxResult = execute('')
 
 
