@@ -92,7 +92,7 @@ import shutil
 import socket
 import ctypes
 import json
-from modules.banner import Menu, AsciiArt, brak
+from modules.banner import Menu, AsciiArt, BRACKETS_COLOR
 from modules.config import Config as config
 from modules.utils import *
 try:
