@@ -1,6 +1,6 @@
 import os
 import sys
-
+import subprocess
 
 def clear_screen():
     os.system('cls') if (sys.platform.lower() ==
@@ -9,3 +9,6 @@ def clear_screen():
 def colorizeInput(text:str):
     print(text, end='', flush=True)
     return input()
+
+def execute(command:str):
+    return subprocess.getoutput(command)
