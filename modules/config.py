@@ -1,3 +1,5 @@
+import re
+
 class Config:
     DNS_DICTIONARY = {
         "Ch4120N DNS": {"index1": "78.157.42.100", "index2": "10.202.10.11"},
@@ -56,3 +58,6 @@ class Config:
     VIRTUAL_KEYWORDS = ["vmware", "virtual", "vbox", "hyper", "loopback", "docker", "br-", "virbr", "veth"]
 
     LINUX_DNS_CONFIG_PATH = '/etc/resolv.conf'
+
+    IPv4_REGEX = re.compile(r'^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}'
+                      r'(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$')
