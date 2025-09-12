@@ -94,14 +94,15 @@ import ctypes
 import json
 from modules.banner import Menu, AsciiArt, brak
 from modules.config import Config as config
+from modules.utils import *
 try:
     from colorama import Fore, Back, init
     init()
 except:
-    print("Please Install colorama package: pip install colorama")
+    print("Please Install colorama package: python -m pip install colorama")
 
 
-class CharonDNSChangerV1:
+class CharonDNSChanger:
     INTERFACE_SELECTED = ''
     SYSTEM = None
     def __init__(self):
