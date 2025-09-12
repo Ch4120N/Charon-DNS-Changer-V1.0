@@ -1,4 +1,3 @@
-import platform, os
 from colorama import Fore, Back
 
 BACKGROUND_COLOR = Back.LIGHTBLUE_EX
