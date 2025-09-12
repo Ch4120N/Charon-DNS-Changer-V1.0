@@ -35,5 +35,5 @@ def WARNING(message:str):
 def INPUT(message: str):
     return (
         f'{BRACKETS_COLOR}[ {INPUTS_COLOR}> {BRACKETS_COLOR}]{DEFAULT_SUB_BANNER_COLOR} ' +
-        message + f'\n{FOREGROUND_RESET}'
+        message + FOREGROUND_RESET
     )
