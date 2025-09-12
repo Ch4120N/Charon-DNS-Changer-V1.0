@@ -10,11 +10,6 @@ FOREGROUND_RESET = Fore.RESET
 NUMBERS_COLOR = Fore.LIGHTYELLOW_EX
 TEXTS_COLOR = Fore.LIGHTRED_EX
 
-def clear_screen():
-    if platform.system().lower() == "windows":
-        os.system('cls')
-    else:
-        os.system('clear')
 
 class Menu:
     MenuPrimary = f"""
