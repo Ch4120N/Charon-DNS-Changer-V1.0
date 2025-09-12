@@ -96,7 +96,7 @@ from modules.banner import Menu, AsciiArt, BRACKETS_COLOR
 from modules.config import Config as config
 from modules.globalConfig import OS, INTERFACE
 from modules.utils import *
-from modules.decorators import INFO, ERROR, SUCCESS
+from modules.decorators import INFO, INPUT, ERROR, SUCCESS
 try:
     from colorama import Fore, Back, init
     init()
@@ -293,18 +293,21 @@ class CharonDNSChanger:
 
 class CharonDNSChanger:
     def __init__(self):
+        print(AsciiArt.miniLogo)
         if (not self.check_privilege()):
             ERROR('You need to run this script as the root user in Linux/Or administrator user in Windows')
             return
         
-        SYSTEM = self.check_os()
+        OS = self.check_os()
         INTERFACE = self.getPrimaryInterface()
         
         while True:
             clear_screen()
             print(AsciiArt.Logo)
             print(Menu.MenuPrimary)
-            
+
+            choice = int(colorizeInput(INPUT('Select the option [01-99] > ')))
+
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32') 
                 else 'linux'
@@ -318,7 +321,7 @@ class CharonDNSChanger:
         return is_admin
     
     def getPrimaryInterface(self):
-        if (self.SYSTEM == 'win'):
+        if (OS == 'win'):
             if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
                 ERROR('Connection error: Please connect to a network (WiFi or Len) to get IP')
                 return
