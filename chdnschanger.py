@@ -93,6 +93,7 @@ import socket
 import ctypes
 import json
 import modules.globalConfig as globalConfig
+from pathlib import Path
 from modules.banner import Menu, AsciiArt, BRACKETS_COLOR
 from modules.config import Config as config
 from modules.utils import *
@@ -293,6 +294,11 @@ class CharonDNSChanger:
 
 class CharonDNSChanger:
     def __init__(self):
+        self.SCRIPT_DIR = Path(__file__).resolve().parent
+        self.BACKUP_DIR = str(str(self.SCRIPT_DIR) + DIRECTORY_SEPARATOR + 'backup')
+
+        self.initialize()
+
         if (not self.check_privilege()):
             print(AsciiArt.miniLogo)
             ERROR('You need to run this script as the root user in Linux/Or administrator user in Windows')
@@ -321,7 +327,14 @@ class CharonDNSChanger:
                 input()
 
 
-        
+    def initialize(self):
+        if (sys.platform.lower() != 'win32'):
+            if (not os.path.exists(self.BACKUP_DIR)):
+                try:
+                    os.makedirs(self.BACKUP_DIR)
+                except:
+                    pass
+
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32') 
                 else 'linux'
@@ -374,7 +387,7 @@ class CharonDNSChanger:
                 return False
         else:
             try:
-                shutil.move('/etc/resolv.conf', './backup/resolv.conf.bak')
+                shutil.move('/etc/resolv.conf', self.BACKUP_DIR + DIRECTORY_SEPARATOR + 'resolv.conf.bak')
             except:
                 return False
             
@@ -398,7 +411,7 @@ class CharonDNSChanger:
             return False
         else:
             try:
-                shutil.move('./backup/resolv.conf.bak', '/etc/resolv.conf')
+                shutil.move(self.BACKUP_DIR + DIRECTORY_SEPARATOR + 'resolv.conf.bak', '/etc/resolv.conf')
             except:
                 return False
             return True
