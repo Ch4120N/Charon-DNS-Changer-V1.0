@@ -41,8 +41,10 @@ class AsciiArt:
             {NUMBERS_COLOR}║  {CUSTOM_TEXT_COLOR}Version :  {DEFAULT_SUB_BANNER_COLOR}1.1                            {NUMBERS_COLOR}║
             {NUMBERS_COLOR}╚════════════════════════════════════════════╝{FOREGROUND_RESET}
 """
+    miniLogo = TEXTS_COLOR+fr"""
+░█▀▀░█░█░█▀█░█▀▄░█▀█░█▀█░░░█▀▄░█▀█░█▀▀░░░█▀▀░█░█░█▀█░█▀█░█▀▀░█▀▀░█▀▄
+░█░░░█▀█░█▀█░█▀▄░█░█░█░█░░░█░█░█░█░▀▀█░░░█░░░█▀█░█▀█░█░█░█░█░█▀▀░█▀▄
+░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀░▀░▀░░░▀▀░░▀░▀░▀▀▀░░░▀▀▀░▀░▀░▀░▀░▀░▀░▀▀▀░▀▀▀░▀░▀  
+                                                        {DEFAULT_SUB_BANNER_COLOR}Version: 1.1
 
-
-
-# print(AsciiArt.Logo)
-# print(Menu.MenuPrimary)
+"""
