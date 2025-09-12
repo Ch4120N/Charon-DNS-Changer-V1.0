@@ -297,6 +297,7 @@ class CharonDNSChanger:
             return
         
         self.SYSTEM = self.check_os()
+        
 
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32') 
@@ -315,6 +316,14 @@ class CharonDNSChanger:
             if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
                 ERROR('Connection error: Please connect to a network (WiFi or Len) to get IP')
                 return
-            
+            netsh_results = subprocess.getoutput('netsh interface show interface').splitlines()
+            for networkInterfaces in netsh_results:
+                if 'enabled' in networkInterfaces.lower() and 'connected' in networkInterfaces.lower():
+                    if (any(vir_keywords in networkInterfaces.lower() for vir_keywords in config.VIRTUAL_KEYWORDS)):
+                        continue
+                    else:
+                        interface_list = networkInterfaces.split()
+                        connected_ssid = interface_list[-1].strip()
+                        return connected_ssid
 
 CharonDNSChanger()
