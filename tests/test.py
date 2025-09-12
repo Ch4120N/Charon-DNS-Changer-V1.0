@@ -124,7 +124,48 @@ def escape_newlines_block(text: str) -> str:
 # query = f'echo "{func}" > resolv.conf'
 # print(query)
 
-user_input = '8.8.8.8, 1.1.1.1, 2.2.2.2'.replace(' ', '').split(',')
-print(user_input)
-if (len(user_input) != 2 or user_input[1].strip() == ''):
-    print("[ - ] Invalid input")
+# user_input = '8.8.8.8, 1.1.1.1, 2.2.2.2'.replace(' ', '').split(',')
+# print(user_input)
+# if (len(user_input) != 2 or user_input[1].strip() == ''):
+#     print("[ - ] Invalid input")
+
+
+import subprocess
+import platform
+import re
+
+def get_current_dns():
+    dns_list = []
+
+    if platform.system().lower() == "windows":
+        try:
+            netsh_output = subprocess.getoutput("netsh interface ip show dns").splitlines()
+            for line in netsh_output:
+                match = re.search(r"(\d{1,3}(?:\.\d{1,3}){3})", line)
+                if match:
+                    ip = match.group(1)
+                    if ip not in dns_list:
+                        dns_list.append(ip)
+        except Exception as e:
+            print(f"Error getting DNS on Windows: {e}")
+
+    elif platform.system().lower() == "linux":
+        try:
+            with open("/etc/resolv.conf", "r") as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith("nameserver"):
+                        parts = line.split()
+                        if len(parts) >= 2 and parts[1] not in dns_list:
+                            dns_list.append(parts[1])
+        except Exception as e:
+            print(f"Error reading /etc/resolv.conf: {e}")
+
+    else:
+        print("Unsupported OS")
+        return ""
+
+    return ", ".join(dns_list)
+
+dns_str = get_current_dns()
+print(dns_str)
