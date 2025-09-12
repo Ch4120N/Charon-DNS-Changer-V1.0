@@ -95,6 +95,7 @@ import json
 from modules.banner import Menu, AsciiArt, BRACKETS_COLOR
 from modules.config import Config as config
 from modules.utils import *
+from modules.decorators import INFO, ERROR, SUCCESS
 try:
     from colorama import Fore, Back, init
     init()
@@ -106,7 +107,7 @@ class CharonDNSChanger:
     INTERFACE_SELECTED = ''
     SYSTEM = None
     def __init__(self):
-        if self.Check_AdminPriviliges():
+        if self.check_privilege():
             self.Check_System()
             self.INTERFACE_SELECTED = self.GetInterfaceName()
 
@@ -118,12 +119,12 @@ class CharonDNSChanger:
                     # self.clear_screen()
                     other_choice = self.getdns(choice)
                     if choice == "97":
-                        self.customdns()
+                        self.customDNS()
                     elif choice == "98":
                         self.clear_screen()
                         print(AsciiArt.Logo)
                         self.Restoration_DNS()
-                        print(f"\n{brak}[{Fore.GREEN}+{brak}]{Fore.CYAN} Reset All DNS To Default Completed Successfuly.")
+                        print(f"\n{BRACKETS_COLOR}[{Fore.GREEN}+{BRACKETS_COLOR}]{Fore.CYAN} Reset All DNS To Default Completed Successfuly.")
                         self.exit_yn()
                     elif choice == "99":
                         sys.exit(Fore.RED+'[!] Shuting Down !')
@@ -133,7 +134,7 @@ class CharonDNSChanger:
                         print(AsciiArt.Logo)
                         dns = self.option_selected(other_choice)
                         self.set_dns(dns[0], dns[1])
-                        print(f"{brak}[{Fore.GREEN}+{brak}]{Fore.CYAN} The '{other_choice}' Have Been Set as DNS")
+                        print(f"{BRACKETS_COLOR}[{Fore.GREEN}+{BRACKETS_COLOR}]{Fore.CYAN} The '{other_choice}' Have Been Set as DNS")
                         self.exit_yn()
                     
                     else:
@@ -154,19 +155,19 @@ class CharonDNSChanger:
 
         # print(other_choice)
         # elif self.getdns(choice):
-    def Check_AdminPriviliges(self):
+    def check_privilege(self):
         try:
             is_admin = os.getuid() == 0
         except AttributeError:
             is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
-        
         return is_admin
-    def Check_System(self):
-        if "win" in platform.system().lower():
-            self.SYSTEM = "win"
-        else:
-            self.SYSTEM = "linux"
-    def customdns(self):
+    
+    def check_os(self):
+        return ('win' if (sys.platform.lower() == 'win32') 
+                else 'linux'
+        )
+    
+    def customDNS(self):
         chd = ''
         while True:
             print(AsciiArt.Logo)
@@ -184,12 +185,12 @@ class CharonDNSChanger:
                 print(Fore.LIGHTRED_EX+'\n[-] Please Enter valid DNS primitive,Secondary\n')
                 input('[!] Press Enter To Continue ....')
                 self.clear_screen()
-        print(f"{brak}[{Fore.GREEN}+{brak}]{Fore.CYAN} The '{chd}' Have Been Set as DNS")
+        print(f"{BRACKETS_COLOR}[{Fore.GREEN}+{BRACKETS_COLOR}]{Fore.CYAN} The '{chd}' Have Been Set as DNS")
         self.exit_yn()
         # print(choice)
 
     def exit_yn(self):
-        choice = input(f"\n{brak}[{Fore.YELLOW}!{brak}]{Fore.LIGHTBLUE_EX} Do you want to exit [y/N]? ")
+        choice = input(f"\n{BRACKETS_COLOR}[{Fore.YELLOW}!{BRACKETS_COLOR}]{Fore.LIGHTBLUE_EX} Do you want to exit [y/N]? ")
         if choice.lower() == "y":
             sys.exit(Fore.LIGHTRED_EX+'[!] Shutting Down !')
         else:
@@ -286,4 +287,24 @@ class CharonDNSChanger:
                     # return self.connected_ssid
 
 
-CharonDNSChangerV1()
+# CharonDNSChanger()
+
+
+class CharonDNSChanger:
+    def __init__(self):
+        if (not self.check_privilege()):
+            ERROR('')
+
+
+    def check_os(self):
+        return ('win' if (sys.platform.lower() == 'win32') 
+                else 'linux'
+        )
+    
+    def check_privilege(self):
+        try:
+            is_admin = os.getuid() == 0
+        except AttributeError:
+            is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
+        return is_admin
+    
