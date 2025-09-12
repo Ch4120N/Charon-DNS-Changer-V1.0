@@ -119,7 +119,12 @@ def escape_newlines_block(text: str) -> str:
 
 
 # encoded = INFO.encode()
-func = escape_newlines_block(INFO)
+# func = escape_newlines_block(INFO)
 
-query = f'echo "{func}" > resolv.conf'
-print(query)
+# query = f'echo "{func}" > resolv.conf'
+# print(query)
+
+user_input = '8.8.8.8, 1.1.1.1, 2.2.2.2'.replace(' ', '').split(',')
+print(user_input)
+if (len(user_input) != 2 or user_input[1].strip() == ''):
+    print("[ - ] Invalid input")
