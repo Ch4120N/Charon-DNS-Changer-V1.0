@@ -307,14 +307,18 @@ class CharonDNSChanger:
             print(Menu.MenuPrimary)
 
             choice = str(colorizeInput(INPUT('Select the option [01-99] > ')))
-            choice = self.getNormalizedDNSChoice(choice)
+            otherChoices = self.getNormalizedDNSChoice(choice)
+
             if (choice == "97"):
                 pass
             elif (choice == "98"):
                 pass
             elif (choice == "99"):
                 pass
-            
+            elif (otherChoices):
+                pass
+
+
         
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32') 
@@ -332,6 +336,8 @@ class CharonDNSChanger:
         normalized = str(int(text))  # "01" -> "1"
         return config.OPTIONS.get(normalized)
     
+    def getDNS(self, DNS:str):
+        pass
     def getPrimaryInterface(self):
         if (globalConfig.OS == 'win'):
             if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
