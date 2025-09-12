@@ -364,11 +364,16 @@ class CharonDNSChanger:
                 return False
             
             generatedInfo = generateINFO()
-            query1 = f'echo "{generateINFO}"'
-            query2 = f'echo "nameserver {primaryDNS}"'
-            query3 = f'echo "nameserver {primaryDNS}"'
-            linuxResult = execute('')
 
+            query1 = f'echo "{generatedInfo}" > {config.LINUX_DNS_CONFIG_PATH}'
+            query2 = f'echo "nameserver {primaryDNS}" >> {config.LINUX_DNS_CONFIG_PATH}'
+            query3 = f'echo "nameserver {primaryDNS}" >> {config.LINUX_DNS_CONFIG_PATH}'
+
+            linuxResult = execute(f'{query1} && {query2} && {query3}')
+
+            if (linuxResult):
+                return True
+            return False
 
     def getPrimaryInterface(self):
         if (globalConfig.OS == 'win'):
