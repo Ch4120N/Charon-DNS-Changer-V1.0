@@ -306,8 +306,16 @@ class CharonDNSChanger:
             print(AsciiArt.Logo)
             print(Menu.MenuPrimary)
 
-            choice = int(colorizeInput(INPUT('Select the option [01-99] > ')))
-
+            choice = str(colorizeInput(INPUT('Select the option [01-99] > ')))
+            choice = self.getNormalizedDNSChoice(choice)
+            if (choice == "97"):
+                pass
+            elif (choice == "98"):
+                pass
+            elif (choice == "99"):
+                pass
+            
+        
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32') 
                 else 'linux'
@@ -319,6 +327,10 @@ class CharonDNSChanger:
         except AttributeError:
             is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
         return is_admin
+    
+    def getNormalizedDNSChoice(self, text: str):
+        normalized = str(int(text))  # "01" -> "1"
+        return config.OPTIONS.get(normalized)
     
     def getPrimaryInterface(self):
         if (globalConfig.OS == 'win'):
