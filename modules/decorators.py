@@ -31,6 +31,7 @@ def WARNING(message:str):
         message + f'\n{FOREGROUND_RESET}'
     )
     sys.stdout.flush()
+
 def INPUT(message: str):
     return (
         f'{BRACKETS_COLOR}[ {INPUTS_COLOR}> {BRACKETS_COLOR}]{DEFAULT_SUB_BANNER_COLOR} ' +
