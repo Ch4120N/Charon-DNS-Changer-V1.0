@@ -350,7 +350,12 @@ class CharonDNSChanger:
         
     def setDNS(self, primaryDNS:str, secondaryDNS:str):
         if (globalConfig.OS == 'win'):
-            pass
+            primaryResult = execute(f'netsh interface ip set dns "{globalConfig.INTERFACE}" static "{primaryDNS}"')
+            secondaryResult = execute(f'netsh interface ip add dns "{globalConfig.INTERFACE}" "{secondaryDNS}" index=2')
+
+            if (primaryDNS):
+                pass
+            
 
     def getPrimaryInterface(self):
         if (globalConfig.OS == 'win'):
