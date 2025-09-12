@@ -1,10 +1,10 @@
 #!/bin/python3
 
 """
-  Charon DNS Changer V1 	: 	Easy Changing DNS (Windows/Linux)
+  Charon DNS Changer 	    : 	Easy Changing DNS (Windows/Linux)
   Author                 	: 	Ch4120N
-  Version                	: 	2.3.5
-  Github                 	: 	https://github.com/Ch4120N/Charon-DNS-Changer-V1.0
+  Version                	: 	2.5.1
+  Github                 	: 	https://github.com/Ch4120N/Charon-DNS-Changer
 """
 
 
@@ -78,7 +78,7 @@
    The precise terms and conditions for copying, distribution and
    modification follow.
 
-     Copyright (C) 2022  CH4120N (https://github.com/Ch4120N)
+     Copyright (C) 2025  CH4120N (https://github.com/Ch4120N)
 
 """
 
@@ -88,7 +88,6 @@ import subprocess
 import platform
 import sys
 import ctypes
-import webbrowser
 import shutil
 import socket
 import ctypes
