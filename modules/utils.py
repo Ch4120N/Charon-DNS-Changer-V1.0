@@ -2,7 +2,12 @@ import os
 import sys
 import subprocess
 from datetime import datetime
+from pathlib import Path
 
+def initialize():
+    pass
+
+    # if (os.path.exists(''))
 
 def clear_screen():
     os.system('cls') if (sys.platform.lower() ==
