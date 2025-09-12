@@ -4,10 +4,20 @@ import subprocess
 from datetime import datetime
 from pathlib import Path
 
+DIRECTORY_SEPARATOR = '\\' if (
+    sys.platform.lower() == 'win32'
+    ) else '/'
+
 def initialize():
     script_dir = Path(__file__).resolve().parent
+    backup_dir = script_dir + DIRECTORY_SEPARATOR + 'backup'
 
-    # if (os.path.exists(''))
+    if (sys.platform.lower() != 'win32'):
+        if (not os.path.exists(backup_dir)):
+            try:
+                os.makedirs(backup_dir)
+            except:
+                pass
 
 def clear_screen():
     os.system('cls') if (sys.platform.lower() ==
