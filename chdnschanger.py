@@ -300,7 +300,11 @@ class CharonDNSChanger:
         SYSTEM = self.check_os()
         INTERFACE = self.getPrimaryInterface()
         
-
+        while True:
+            clear_screen()
+            print(AsciiArt.Logo)
+            print(Menu.MenuPrimary)
+            
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32') 
                 else 'linux'
