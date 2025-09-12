@@ -54,3 +54,5 @@ class Config:
     }
     
     VIRTUAL_KEYWORDS = ["vmware", "virtual", "vbox", "hyper", "loopback", "docker", "br-", "virbr", "veth"]
+    OS = None
+    INTERFACE = None
