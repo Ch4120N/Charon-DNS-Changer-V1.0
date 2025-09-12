@@ -353,9 +353,18 @@ class CharonDNSChanger:
             primaryResult = execute(f'netsh interface ip set dns "{globalConfig.INTERFACE}" static "{primaryDNS}"')
             secondaryResult = execute(f'netsh interface ip add dns "{globalConfig.INTERFACE}" "{secondaryDNS}" index=2')
 
-            if (primaryDNS):
-                pass
+            if (primaryResult and secondaryResult):
+                return True
+            else:
+                return False
+        else:
+            try:
+                shutil.move('/etc/resolv.conf', './backup/resolv.conf.bak')
+            except:
+                return False
             
+            linuxResult = execute('')
+
 
     def getPrimaryInterface(self):
         if (globalConfig.OS == 'win'):
