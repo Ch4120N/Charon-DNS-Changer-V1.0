@@ -293,8 +293,10 @@ class CharonDNSChanger:
 class CharonDNSChanger:
     def __init__(self):
         if (not self.check_privilege()):
-            ERROR('')
-
+            ERROR('You need to run this script as the root user in Linux/Or administrator user in Windows')
+            return
+        
+        self.SYSTEM = self.check_os()
 
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32') 
@@ -308,3 +310,11 @@ class CharonDNSChanger:
             is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
         return is_admin
     
+    def getPrimaryInterface(self):
+        if (self.SYSTEM == 'win'):
+            if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
+                ERROR('Connection error: Please connect to a network (WiFi or Len) to get IP')
+                return
+            
+
+CharonDNSChanger()
