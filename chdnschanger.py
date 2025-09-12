@@ -94,6 +94,7 @@ import ctypes
 import json
 from modules.banner import Menu, AsciiArt, BRACKETS_COLOR
 from modules.config import Config as config
+from modules.globalConfig import OS, INTERFACE
 from modules.utils import *
 from modules.decorators import INFO, ERROR, SUCCESS
 try:
@@ -296,7 +297,8 @@ class CharonDNSChanger:
             ERROR('You need to run this script as the root user in Linux/Or administrator user in Windows')
             return
         
-        self.SYSTEM = self.check_os()
+        SYSTEM = self.check_os()
+        INTERFACE = self.getPrimaryInterface()
         
 
     def check_os(self):
