@@ -5,7 +5,7 @@ from datetime import datetime
 from pathlib import Path
 
 def initialize():
-    pass
+    script_dir = Path(__file__).resolve().parent
 
     # if (os.path.exists(''))
 
