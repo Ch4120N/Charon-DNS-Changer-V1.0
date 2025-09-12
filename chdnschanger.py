@@ -338,6 +338,21 @@ class CharonDNSChanger:
         normalized = str(int(text))  # "01" -> "1"
         return config.OPTIONS.get(normalized)
     
+    def getPrimaryInterface(self):
+        if (globalConfig.OS == 'win'):
+            if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
+                ERROR('Connection error: Please connect to a network (WiFi or Len) to get IP')
+                return
+            netsh_results = subprocess.getoutput('netsh interface show interface').splitlines()
+            for networkInterfaces in netsh_results:
+                if 'enabled' in networkInterfaces.lower() and 'connected' in networkInterfaces.lower():
+                    if (any(vir_keywords in networkInterfaces.lower() for vir_keywords in config.VIRTUAL_KEYWORDS)):
+                        continue
+                    else:
+                        interface_list = networkInterfaces.split()
+                        connected_ssid = interface_list[-1].strip()
+                        return connected_ssid
+    
     def getDNS(self, name:str):
         indexes = config.DNS_DICTIONARY.get(name)
         try:
@@ -374,20 +389,18 @@ class CharonDNSChanger:
             if (linuxResult):
                 return True
             return False
-
-    def getPrimaryInterface(self):
+    
+    def resetDNS2DHCP(self):
         if (globalConfig.OS == 'win'):
-            if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
-                ERROR('Connection error: Please connect to a network (WiFi or Len) to get IP')
-                return
-            netsh_results = subprocess.getoutput('netsh interface show interface').splitlines()
-            for networkInterfaces in netsh_results:
-                if 'enabled' in networkInterfaces.lower() and 'connected' in networkInterfaces.lower():
-                    if (any(vir_keywords in networkInterfaces.lower() for vir_keywords in config.VIRTUAL_KEYWORDS)):
-                        continue
-                    else:
-                        interface_list = networkInterfaces.split()
-                        connected_ssid = interface_list[-1].strip()
-                        return connected_ssid
+            winDHCP = execute(f'netsh interface ip set dns name="{globalConfig.INTERFACE}" source=dhcp')
+            if (winDHCP):
+                return True
+            return False
+        else:
+            try:
+                shutil.move('./backup/resolv.conf.bak', '/etc/resolv.conf')
+            except:
+                return False
+            return True
 
 CharonDNSChanger()
