@@ -1,43 +1,50 @@
-from colorama import Fore, Back, Style
 import platform, os
-num = Fore.LIGHTYELLOW_EX
-brak = Fore.LIGHTBLUE_EX
-text = Fore.LIGHTRED_EX
-custom = Fore.LIGHTCYAN_EX
-backcolor = Back.LIGHTBLUE_EX
-class Menu:
+from colorama import Fore, Back
 
-    MenuPrimary = f"""
-{brak}[{num}1{brak}]{text} Ch4120N DNS                        {brak}[{num}9{brak}]{text} OpenDNS Home               {brak}[{num}17{brak}]{text} Yandex DNS
-{brak}[{num}2{brak}]{text} Charon Security Agency V1          {brak}[{num}10{brak}]{text} Cloudflare DNS            {brak}[{num}18{brak}]{text} DNS.Watch
-{brak}[{num}3{brak}]{text} Charon Security Agency V2          {brak}[{num}11{brak}]{text} Comodo Secure DNS         {brak}[{num}19{brak}]{text} Level 3 DNS
-{brak}[{num}4{brak}]{text} Shecan DNS                         {brak}[{num}12{brak}]{text} CleanBrowsing DNS         {brak}[{num}20{brak}]{text} Oracle Dyn DNS
-{brak}[{num}5{brak}]{text} Electro DNS                        {brak}[{num}13{brak}]{text} Alternate DNS             {brak}[{num}21{brak}]{text} UncensoredDNS DNS
-{brak}[{num}6{brak}]{text} 403 DNS                            {brak}[{num}14{brak}]{text} AdGuard DNS               {brak}[{num}22{brak}]{text} Neustar Security DNS
-{brak}[{num}7{brak}]{text} Google Public DNS                  {brak}[{num}15{brak}]{text} Verisign DNS              {brak}[{num}23{brak}]{text} Green Team DNS
-{brak}[{num}8{brak}]{text} Quad9 DNS                          {brak}[{num}16{brak}]{text} OpenNIC DNS               {brak}[{num}24{brak}]{text} Safe DNS
+BACKGROUND_COLOR = Back.LIGHTBLUE_EX
+BRACKETS_COLOR = Fore.LIGHTBLUE_EX
+CUSTOM_COLOR = Fore.LIGHTCYAN_EX
+CUSTOM_TEXT_COLOR = Fore.LIGHTGREEN_EX
+DEFAULT_SUB_BANNER_COLOR = Fore.LIGHTWHITE_EX
+FOREGROUND_RESET = Fore.RESET
+NUMBERS_COLOR = Fore.LIGHTYELLOW_EX
+TEXTS_COLOR = Fore.LIGHTRED_EX
 
-{brak}[{num}97{brak}]{text} Custom                            {brak}[{num}98{brak}]{text} Deafult (DHCP)            {brak}[{num}99{brak}]{text} Exit
-"""
-
-class AsciiArt:
+def clear_screen():
     if platform.system().lower() == "windows":
         os.system('cls')
     else:
         os.system('clear')
-    Logo = Fore.LIGHTCYAN_EX+fr"""
-                                 (        ) (                                            
-   (      )                      )\ )  ( /( )\ )     (      )                            
-   )\  ( /(    ) (              (()/(  )\()|()/(     )\  ( /(    )       (  (    (  (    
- (((_) )\())( /( )(   (   (      /(_))((_)\ /(_))  (((_) )\())( /(  (    )\))(  ))\ )(   
- )\___((_)\ )(_)|()\  )\  )\ )  (_))_  _((_|_))    )\___((_)\ )(_)) )\ )((_))\ /((_|()\  
-((/ __| |(_|(_)_ ((_)((_)_(_/(   |   \| \| / __|  ((/ __| |(_|(_)_ _(_/( (()(_|_))  ((_) 
- | (__| ' \/ _` | '_/ _ \ ' \))  | |) | .` \__ \   | (__| ' \/ _` | ' \)) _` |/ -_)| '_|
-  \___|_||_\__,_|_| \___/_||_|   |___/|_|\_|___/    \___|_||_\__,_|_||_|\__, |\___||_|    
-                                                                        |___/
 
-                                                                    {backcolor}{Fore.LIGHTMAGENTA_EX}Version: 1.0{Back.RESET}
-                                                                    {backcolor}{Fore.LIGHTMAGENTA_EX}Programmer: Ch4120N{Back.RESET}
+class Menu:
+    MenuPrimary = f"""
+{BRACKETS_COLOR}[{NUMBERS_COLOR}01{BRACKETS_COLOR}]{TEXTS_COLOR} Ch4120N DNS                        {BRACKETS_COLOR}[{NUMBERS_COLOR}09{BRACKETS_COLOR}]{TEXTS_COLOR} OpenDNS Home              {BRACKETS_COLOR}[{NUMBERS_COLOR}17{BRACKETS_COLOR}]{TEXTS_COLOR} Yandex DNS
+{BRACKETS_COLOR}[{NUMBERS_COLOR}02{BRACKETS_COLOR}]{TEXTS_COLOR} Charon Security Agency V1          {BRACKETS_COLOR}[{NUMBERS_COLOR}10{BRACKETS_COLOR}]{TEXTS_COLOR} Cloudflare DNS            {BRACKETS_COLOR}[{NUMBERS_COLOR}18{BRACKETS_COLOR}]{TEXTS_COLOR} DNS.Watch
+{BRACKETS_COLOR}[{NUMBERS_COLOR}03{BRACKETS_COLOR}]{TEXTS_COLOR} Charon Security Agency V2          {BRACKETS_COLOR}[{NUMBERS_COLOR}11{BRACKETS_COLOR}]{TEXTS_COLOR} Comodo Secure DNS         {BRACKETS_COLOR}[{NUMBERS_COLOR}19{BRACKETS_COLOR}]{TEXTS_COLOR} Level 3 DNS
+{BRACKETS_COLOR}[{NUMBERS_COLOR}04{BRACKETS_COLOR}]{TEXTS_COLOR} Shecan DNS                         {BRACKETS_COLOR}[{NUMBERS_COLOR}12{BRACKETS_COLOR}]{TEXTS_COLOR} CleanBrowsing DNS         {BRACKETS_COLOR}[{NUMBERS_COLOR}20{BRACKETS_COLOR}]{TEXTS_COLOR} Oracle Dyn DNS
+{BRACKETS_COLOR}[{NUMBERS_COLOR}05{BRACKETS_COLOR}]{TEXTS_COLOR} Electro DNS                        {BRACKETS_COLOR}[{NUMBERS_COLOR}13{BRACKETS_COLOR}]{TEXTS_COLOR} Alternate DNS             {BRACKETS_COLOR}[{NUMBERS_COLOR}21{BRACKETS_COLOR}]{TEXTS_COLOR} UncensoredDNS DNS
+{BRACKETS_COLOR}[{NUMBERS_COLOR}06{BRACKETS_COLOR}]{TEXTS_COLOR} 403 DNS                            {BRACKETS_COLOR}[{NUMBERS_COLOR}14{BRACKETS_COLOR}]{TEXTS_COLOR} AdGuard DNS               {BRACKETS_COLOR}[{NUMBERS_COLOR}22{BRACKETS_COLOR}]{TEXTS_COLOR} Neustar Security DNS
+{BRACKETS_COLOR}[{NUMBERS_COLOR}07{BRACKETS_COLOR}]{TEXTS_COLOR} Google Public DNS                  {BRACKETS_COLOR}[{NUMBERS_COLOR}15{BRACKETS_COLOR}]{TEXTS_COLOR} Verisign DNS              {BRACKETS_COLOR}[{NUMBERS_COLOR}23{BRACKETS_COLOR}]{TEXTS_COLOR} Green Team DNS
+{BRACKETS_COLOR}[{NUMBERS_COLOR}08{BRACKETS_COLOR}]{TEXTS_COLOR} Quad9 DNS                          {BRACKETS_COLOR}[{NUMBERS_COLOR}16{BRACKETS_COLOR}]{TEXTS_COLOR} OpenNIC DNS               {BRACKETS_COLOR}[{NUMBERS_COLOR}24{BRACKETS_COLOR}]{TEXTS_COLOR} Safe DNS
+
+{BRACKETS_COLOR}[{NUMBERS_COLOR}97{BRACKETS_COLOR}]{TEXTS_COLOR} Custom                             {BRACKETS_COLOR}[{NUMBERS_COLOR}98{BRACKETS_COLOR}]{TEXTS_COLOR} Default (DHCP)            {BRACKETS_COLOR}[{NUMBERS_COLOR}99{BRACKETS_COLOR}]{TEXTS_COLOR} Exit
+{FOREGROUND_RESET}"""
+
+class AsciiArt:
+    Logo = CUSTOM_COLOR+fr"""
+                                                                                 
+ _____ _                      ____  _____ _____    _____ _                       
+|     | |_ ___ ___ ___ ___   |    \|   | |   __|  |     | |_ ___ ___ ___ ___ ___ 
+|   --|   | .'|  _| . |   |  |  |  | | | |__   |  |   --|   | .'|   | . | -_|  _|
+|_____|_|_|__,|_| |___|_|_|  |____/|_|___|_____|  |_____|_|_|__,|_|_|_  |___|_|  
+                                                                    |___|        
+            {NUMBERS_COLOR}╔════════════════════════════════════════════╗
+            {NUMBERS_COLOR}║             {CUSTOM_COLOR}Charon DNS Changer             {NUMBERS_COLOR}║
+            {NUMBERS_COLOR}║       {TEXTS_COLOR}Powerful Tool For Changing DNS       {NUMBERS_COLOR}║
+            {NUMBERS_COLOR}║  {CUSTOM_TEXT_COLOR}Author  :  {DEFAULT_SUB_BANNER_COLOR}AmirHossein Ghanami {BRACKETS_COLOR}({TEXTS_COLOR}Ch4120N{BRACKETS_COLOR})  {NUMBERS_COLOR}║
+            {NUMBERS_COLOR}║  {CUSTOM_TEXT_COLOR}Github  :  {DEFAULT_SUB_BANNER_COLOR}Github.com/Ch4120N             {NUMBERS_COLOR}║
+            {NUMBERS_COLOR}║  {CUSTOM_TEXT_COLOR}Version :  {DEFAULT_SUB_BANNER_COLOR}1.1                            {NUMBERS_COLOR}║
+            {NUMBERS_COLOR}╚════════════════════════════════════════════╝{FOREGROUND_RESET}
 """
 
 
