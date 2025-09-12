@@ -293,8 +293,8 @@ class CharonDNSChanger:
 
 class CharonDNSChanger:
     def __init__(self):
-        print(AsciiArt.miniLogo)
         if (not self.check_privilege()):
+            print(AsciiArt.miniLogo)
             ERROR('You need to run this script as the root user in Linux/Or administrator user in Windows')
             return
         
