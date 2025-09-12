@@ -53,16 +53,21 @@ OPTIONS = {
     "24": "SafeDNS",
 }
 
+
 def get_dns_choice(user_input: str) -> str:
     normalized = str(int(user_input))  # "01" → "1"
-    return OPTIONS.get(normalized, "[ ! ] invalid input")
+    return OPTIONS.get(normalized)
 
-def getDNSs(name:str):
-    return DNS_DICTIONARY.get(name)
+
+def getDNSs(name: str):
+    indexes = DNS_DICTIONARY.get(name)
+    try:
+        return [indexes.get('index1'), indexes.get('index2')]
+    except AttributeError:
+        return []
 
 
 user_input = input("Please Enter Number: ")
 user_input = get_dns_choice(user_input)
 
-print([getDNSs(user_input).get('index1'), getDNSs(user_input).get('index2')])
-
+print(getDNSs(user_input))

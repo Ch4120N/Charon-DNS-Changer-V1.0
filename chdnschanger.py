@@ -307,7 +307,7 @@ class CharonDNSChanger:
             print(Menu.MenuPrimary)
 
             choice = str(colorizeInput(INPUT('Select the option [01-99] > ')))
-            otherChoices = self.getNormalizedDNSChoice(choice)
+            otherChoices = self.getNormalizedChoice(choice)
 
             if (choice == "97"):
                 pass
@@ -316,7 +316,9 @@ class CharonDNSChanger:
             elif (choice == "99"):
                 pass
             elif (otherChoices):
-                pass
+                DNS_CONFIG = self.getDNS(otherChoices)
+                print(DNS_CONFIG)
+                input()
 
 
         
@@ -332,12 +334,24 @@ class CharonDNSChanger:
             is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
         return is_admin
     
-    def getNormalizedDNSChoice(self, text: str):
+    def getNormalizedChoice(self, text: str):
         normalized = str(int(text))  # "01" -> "1"
         return config.OPTIONS.get(normalized)
     
-    def getDNS(self, DNS:str):
-        pass
+    def getDNS(self, name:str):
+        indexes = config.DNS_DICTIONARY.get(name)
+        try:
+            return [
+                indexes.get('index1'),
+                indexes.get('index2')
+            ]
+        except AttributeError:
+            return []
+        
+    def setDNS(self, primaryDNS:str, secondaryDNS:str):
+        if (globalConfig.OS == 'win'):
+            pass
+
     def getPrimaryInterface(self):
         if (globalConfig.OS == 'win'):
             if (socket.gethostbyname(socket.gethostname()) == "127.0.0.1"):
