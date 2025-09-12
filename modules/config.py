@@ -26,7 +26,7 @@ class Config:
         "SafeDNS": {"index1": "195.46.39.39", "index2": "195.46.39.40"},
     }
 
-    selected = {
+    OPTIONS = {
         "1": "Ch4120N DNS",
         "2": "Charon Security Agency DNS1",
         "3": "Charon Security Agency DNS2",
@@ -52,3 +52,5 @@ class Config:
         "23": "GreenTeamDNS",
         "24": "SafeDNS",
     }
+    
+    VIRTUAL_KEYWORDS = ["vmware", "virtual", "vbox", "hyper", "loopback", "docker", "br-", "virbr", "veth"]
