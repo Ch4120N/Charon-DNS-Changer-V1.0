@@ -73,31 +73,9 @@ def getDNSs(name: str):
 # print(getDNSs(user_input))
 
 import subprocess
-import platform
-# def execute(command:str):
-#     result = subprocess.run(
-#                 command,
-#                 shell=True,
-#                 stdout=subprocess.PIPE,
-#                 stderr=subprocess.PIPE,
-#                 text=True
-#             )
-#     if result.returncode == 0:
-#         return True
-#     else:
-#         return False
+import sys
 
-# result = execute('ls /etc/')
-
-# print(result)
-
-# if result:
-
-#     print("True")
-# else:
-#     print("False")
-
-def execute(command: str):
+def execute(command:str):
     try:
         kwargs = {
             "shell": True,
@@ -106,22 +84,18 @@ def execute(command: str):
             "text": True
         }
 
-
-        kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
+        if (sys.platform.lower() == 'win32'):
+            kwargs["creationflags"] = subprocess.CREATE_NO_WINDOW
 
         result = subprocess.run(command, **kwargs)
 
         if result.returncode == 0:
-            if result.stdout.strip():
-                print(f"✅ Output:\n{result.stdout.strip()}")
             return True
         else:
-            print(f"❌ Error (code {result.returncode}): {result.stderr.strip()}")
             return False
 
-    except Exception as e:
-        print(f"⚠️ Exception: {e}")
+    except:
         return False
 
-result = execute("echo Hello, World")
-print(result)
+# result = execute('ls /etc/')
+# print(result)
