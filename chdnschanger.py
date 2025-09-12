@@ -415,5 +415,9 @@ class CharonDNSChanger:
             except:
                 return False
             return True
+    
+    def customDNS(self):
+        pass
+
 
 CharonDNSChanger()
