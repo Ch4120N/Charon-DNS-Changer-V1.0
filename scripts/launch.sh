@@ -6,5 +6,5 @@ if [[ $1 == '-h' || $1 == 'help' ]]; then
 
 else
 	cd $CHDNSCHANGER
-	python3 ./chdnschanger.py
+	sudo python3 ./ChDNSChanger.py
 fi
