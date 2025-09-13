@@ -6,7 +6,7 @@
   <img src="./images/Logo.png" alt="ChDNSChanger Logo " width="500">
   <h1>Charon DNS Changer</h1>
   <img alt="Language" src="https://img.shields.io/badge/Language-Python%203.9-blue?style=for-the-badge">
-  <img alt="Supported Platform" src="https://img.shields.io/badge/Platform-All_Platform-red?style=for-the-badge">
+  <img alt="Supported Platform" src="https://img.shields.io/badge/Platform-Windows/And_Linux-red?style=for-the-badge">
   <img alt="License" src="https://img.shields.io/badge/Licence-GNU-orange?style=for-the-badge">
   <br>
   <br>
