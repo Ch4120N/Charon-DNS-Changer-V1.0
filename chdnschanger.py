@@ -89,6 +89,7 @@ import subprocess
 import sys
 import ctypes
 import shutil
+import signal
 import modules.globalConfig as globalConfig
 from pathlib import Path
 from modules.banner import (
@@ -113,9 +114,14 @@ except:
 
 class CharonDNSChanger:
     """
-    Main class to handle DNS changes for Windows and Linux systems.
-    Provides functionality for setting custom DNS, restoring DHCP,
-    and viewing current DNS settings.
+    Main class to manage DNS configuration on Windows and Linux systems.
+
+    Features:
+    - Detects OS and checks for administrative privileges
+    - Allows custom DNS or predefined DNS selections
+    - Provides automatic DHCP reset functionality
+    - Backs up and restores DNS configuration files on Linux
+    - Interactive menu system with colorful terminal output
     """
 
     def __init__(self):
@@ -123,7 +129,18 @@ class CharonDNSChanger:
         self.SCRIPT_DIR = Path(__file__).resolve().parent
         # Define backup directory for Linux resolv.conf or other backups
         self.BACKUP_DIR = str(str(self.SCRIPT_DIR) + DIRECTORY_SEPARATOR + "backup")
-
+        # Handle Ctrl+C interruption gracefully
+        signal.signal(signal.SIGINT, self.handle_CTRL_C)
+    
+    def handle_CTRL_C(self, frm, func):
+        """
+        Handles Ctrl+C keyboard interrupt events gracefully.
+        Outputs an error message and exits the program cleanly.
+        """
+        sys.stdout.write('\n\n')
+        ERROR('Program Interrupted!')
+        sys.exit(1)
+    
     def initialize(self):
         """
         Initializes the program, checks OS, privileges, and handles
