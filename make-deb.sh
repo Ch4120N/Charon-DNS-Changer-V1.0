@@ -3,8 +3,8 @@
 # Make Deb Package for Charon-DNS-Changer (^.^)
 
 _PACKAGE="Charon-DNS-Changer"
-_DIR="Charon-DNS-Changer-V1.0"
-_VERSION="2.4.1"
+_DIR="Charon-DNS-Changer"
+_VERSION="1.1"
 _ARCH="all"
 PKG_NAME="${_PACKAGE}_${_VERSION}_${_ARCH}.deb"
 
@@ -26,7 +26,7 @@ else
 fi
 
 # Common dependencies
-_depend+="python3-full, python3-pip, python3-colorama"
+_depend+="python3, python3-pip, python3-colorama"
 
 # Prepare build environment
 if [[ -d "build_env" ]]; then rm -rf build_env; fi
@@ -59,7 +59,7 @@ cp -f scripts/launch.sh "build_env/${_bin_dir}/chdnschanger"
 chmod 755 "build_env/${_bin_dir}/chdnschanger"
 
 # Copy program files
-cp -fr .imgs/ log/ modules/ LICENCE README.md chdnschanger.py requirements.txt Settings.json "build_env/${_opt_dir}"
+cp -fr .imgs/ log/ modules/ LICENCE README.md ChDNSChanger.py requirements.txt "build_env/${_opt_dir}"
 
 # Build the .deb package
 dpkg-deb --build build_env "${PKG_NAME}"
