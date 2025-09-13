@@ -24,7 +24,8 @@
 
 ## 👀 Screenshot
 
-<img src="./images/screenshot.png" alt="screenshot">
+<img src="./images/preview1.png" alt="Preview 1">
+<img src="./images/preview2.png" alt="Preview 2">
 
 ## ⚓ Requires
 
