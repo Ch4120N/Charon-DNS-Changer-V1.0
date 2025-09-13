@@ -1,6 +1,16 @@
-import re
+import re  # Import regex module for validating IPv4 addresses
+
 
 class Config:
+    """
+    Configuration class containing constants and mappings for DNS changer.
+    Includes predefined DNS servers, menu options, virtual interface keywords,
+    Linux DNS file path, and IPv4 validation regex.
+    """
+
+    # Predefined DNS servers with primary and secondary addresses
+    # Key: Human-readable DNS name
+    # Value: Dictionary with 'index1' (primary DNS) and 'index2' (secondary DNS)
     DNS_DICTIONARY = {
         "Ch4120N DNS": {"index1": "78.157.42.100", "index2": "10.202.10.11"},
         "Charon Security Agency DNS1": {"index1": "178.22.122.100", "index2": "1.1.1.1"},
@@ -28,6 +38,8 @@ class Config:
         "SafeDNS": {"index1": "195.46.39.39", "index2": "195.46.39.40"},
     }
 
+    # Mapping of menu option numbers (as strings) to DNS dictionary keys
+    # Used to normalize user menu selection input
     OPTIONS = {
         "1": "Ch4120N DNS",
         "2": "Charon Security Agency DNS1",
@@ -54,10 +66,17 @@ class Config:
         "23": "GreenTeamDNS",
         "24": "SafeDNS",
     }
-    
+
+    # Keywords used to detect virtual or non-physical network interfaces
+    # Used to filter out virtual adapters such as VMware, VirtualBox, Docker, etc.
     VIRTUAL_KEYWORDS = ["vmware", "virtual", "vbox", "hyper", "loopback", "docker", "br-", "virbr", "veth"]
 
+    # Default path to DNS resolver configuration file on Linux systems
     LINUX_DNS_CONFIG_PATH = '/etc/resolv.conf'
 
-    IPv4_REGEX = re.compile(r'^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}'
-                      r'(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$')
+    # Regular expression pattern for validating IPv4 addresses
+    # Matches 0.0.0.0 to 255.255.255.255
+    IPv4_REGEX = re.compile(
+        r'^(?:(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)\.){3}'
+        r'(?:25[0-5]|2[0-4]\d|1\d{2}|[1-9]?\d)$'
+    )
