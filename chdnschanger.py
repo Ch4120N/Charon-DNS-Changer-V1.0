@@ -83,227 +83,23 @@
 """
 
 
-import os
 import re
+import os
 import subprocess
-import platform
 import sys
 import ctypes
 import shutil
-import socket
-import json
 import modules.globalConfig as globalConfig
 from pathlib import Path
 from modules.banner import Menu, AsciiArt, BACK2MENU_INPUT, INPUTS_COLOR, CUSTOM_TEXT_COLOR
 from modules.config import Config as config
-from modules.utils import *
 from modules.decorators import INFO, INPUT, ERROR, SUCCESS, WARNING
+from modules.utils import *
 try:
     from colorama import Fore, Back, init
     init()
 except:
-    print("Please Install colorama package: python -m pip install colorama")
-
-
-# class CharonDNSChanger:
-#     INTERFACE_SELECTED = ''
-#     SYSTEM = None
-
-#     def __init__(self):
-#         if self.check_privilege():
-#             self.Check_System()
-#             self.INTERFACE_SELECTED = self.GetInterfaceName()
-
-#             while True:
-#                 try:
-#                     print(AsciiArt.Logo)
-#                     print(Menu.MenuPrimary)
-#                     choice = str(input(Fore.LIGHTMAGENTA_EX +
-#                                  "Select the option [1-99]:> "))
-#                     # self.clear_screen()
-#                     other_choice = self.getdns(choice)
-#                     if choice == "97":
-#                         self.customDNS()
-#                     elif choice == "98":
-#                         self.clear_screen()
-#                         print(AsciiArt.Logo)
-#                         self.Restoration_DNS()
-#                         print(
-#                             f"\n{BRACKETS_COLOR}[{Fore.GREEN}+{BRACKETS_COLOR}]{Fore.CYAN} Reset All DNS To Default Completed Successfuly.")
-#                         self.exit_yn()
-#                     elif choice == "99":
-#                         sys.exit(Fore.RED+'[!] Shuting Down !')
-
-#                     elif other_choice:
-#                         self.clear_screen()
-#                         print(AsciiArt.Logo)
-#                         dns = self.option_selected(other_choice)
-#                         self.set_dns(dns[0], dns[1])
-#                         print(
-#                             f"{BRACKETS_COLOR}[{Fore.GREEN}+{BRACKETS_COLOR}]{Fore.CYAN} The '{other_choice}' Have Been Set as DNS")
-#                         self.exit_yn()
-
-#                     else:
-#                         print(Fore.RED+"[-] Please Select Valid Option")
-#                         input("\n[!] Press Enter To Continue ....")
-#                         self.clear_screen()
-#                 except (KeyboardInterrupt, TypeError):
-#                     try:
-#                         input("\n[!] Press Enter To Continue ....")
-#                     except:
-#                         sys.exit(Fore.RED+'\n[!] Shutting Down !')
-
-#                     self.clear_screen()
-#         else:
-#             sys.exit(
-#                 Fore.RED+"[-] You need to use the root user in Linux or administrator user in Windows.")
-
-#         # print(other_choice)
-#         # elif self.getdns(choice):
-
-#     def check_privilege(self):
-#         try:
-#             is_admin = os.getuid() == 0
-#         except AttributeError:
-#             is_admin = ctypes.windll.shell32.IsUserAnAdmin() != 0
-#         return is_admin
-
-#     def check_os(self):
-#         return ('win' if (sys.platform.lower() == 'win32')
-#                 else 'linux'
-#                 )
-
-#     def customDNS(self):
-#         chd = ''
-#         while True:
-#             print(AsciiArt.Logo)
-#             print(Fore.LIGHTGREEN_EX +
-#                   '\n[+] Please insert dns EX: 8.8.8.8,8.8.4.4\n')
-#             choice = input(Fore.LIGHTMAGENTA_EX +
-#                            'insert DNS (EX: primitive,Secondary) > ')
-
-#             choice = choice.replace(" ", "").replace('\t', "")
-#             chd += choice
-#             choice = choice.split(',')
-
-#             if len(choice) == 2:
-#                 self.set_dns(choice[0], choice[1])
-#                 break
-#             else:
-#                 print(Fore.LIGHTRED_EX +
-#                       '\n[-] Please Enter valid DNS primitive,Secondary\n')
-#                 input('[!] Press Enter To Continue ....')
-#                 self.clear_screen()
-#         print(
-#             f"{BRACKETS_COLOR}[{Fore.GREEN}+{BRACKETS_COLOR}]{Fore.CYAN} The '{chd}' Have Been Set as DNS")
-#         self.exit_yn()
-#         # print(choice)
-
-#     def exit_yn(self):
-#         choice = input(
-#             f"\n{BRACKETS_COLOR}[{Fore.YELLOW}!{BRACKETS_COLOR}]{Fore.LIGHTBLUE_EX} Do you want to exit [y/N]? ")
-#         if choice.lower() == "y":
-#             sys.exit(Fore.LIGHTRED_EX+'[!] Shutting Down !')
-#         else:
-#             self.clear_screen()
-#             pass
-
-#     def option_selected(self, select):
-#         for i in config.DNS_DICTIONERY.keys():
-#             indexs = config.DNS_DICTIONERY.get(select)
-
-#         return [indexs.get("index1"), indexs.get("index2")]
-
-#     def clear_screen(self):
-#         if platform.system().lower() == "windows":
-#             os.system('cls')
-#         else:
-#             os.system('clear')
-
-#     def set_dns(self, primery_DNS: str, secoundry_DNS: str):
-#         with open('log/log.log', 'w') as log:
-#             if self.SYSTEM == "win":
-#                 subprocess.getoutput(
-#                     f'netsh interface ip set dns "{self.INTERFACE_SELECTED}" static {primery_DNS}')
-#                 subprocess.getoutput(
-#                     f'netsh interface ip add dns "{self.INTERFACE_SELECTED}" {secoundry_DNS} index=2')
-#                 # subprocess.Popen(f'netsh interface ip set dns "{self.INTERFACE_SELECTED}" static {primery_DNS}', shell=True,stdout=log, stderr=log)
-#                 # subprocess.Popen(f'netsh interface ip add dns "{self.INTERFACE_SELECTED}" {secoundry_DNS} index=2', shell=True,stdout=log, stderr=log)
-#             else:
-#                 try:
-#                     shutil.move('/etc/resolv.conf', './log/resolv.conf.bak')
-#                 except:
-#                     pass
-
-#                 subprocess.Popen(
-#                     f'echo "# Generated By Charon DNS Changer" > /etc/resolv.conf && echo "nameserver {primery_DNS}" >> /etc/resolv.conf && echo "nameserver {secoundry_DNS}" >> /etc/resolv.conf', shell=True, stdout=log, stderr=log)
-
-#     def getdns(self, select: str):
-#         other_choice = []
-#         for i in config.selected.keys():
-#             other_choice.append(i)
-
-#         try:
-#             return config.selected.get(other_choice[int(select)-1])
-#         except:
-#             return
-
-#     def Restoration_DNS(self):
-#         # global data_listed
-#         if self.SYSTEM == "win":
-#             with open('Settings.json', 'r') as f:
-#                 data = f.read()
-
-#             # data_listed = []
-#             data_listed = None
-#             obj = json.loads(data)
-#             for i in obj:
-#                 if self.INTERFACE_SELECTED in ', '.join(str(x) for x in i.values()):
-#                     pattern = ', '.join(str(x) for x in i.values())
-#                     data_listed = pattern.split(', ')
-#             if self.INTERFACE_SELECTED == data_listed[0]:
-#                 self.set_dns(data_listed[1], data_listed[2])
-#             # print(data_listed)
-#         else:
-#             try:
-#                 shutil.move('./log/resolv.conf.bak', '/etc/resolv.conf')
-#             except:
-#                 pass
-#             # self.set_dns('1.1.1.1', '1.0.0.1')
-
-#     def GetInterfaceName(self):
-#         if self.SYSTEM == "win":
-#             if socket.gethostbyname(socket.gethostname()) == "127.0.0.1":
-#                 # print("Please Connect To A Network")
-#                 print(Fore.CYAN+"#"*25+" Connection Error "+"#"*25, Fore.LIGHTRED_EX +
-#                       "\nPlease Connect To A Network ( Lan or Wifi )\nShutdown!")
-#                 sys.exit(1)
-#             else:
-#                 x = None
-#                 current_network = subprocess.getoutput(
-#                     'netsh interface show interface').split('\n')
-#                 # ssid_line = [x for x in current_network if 'Enabled' in x and "Connected" in x]
-#                 for x in current_network:
-#                     if 'Enabled' in x and "Connected" in x:
-#                         if 'enabled' in x.lower() and "connected" in x.lower() and "vm" in x.lower():
-#                             continue
-#                         elif 'enabled' in x and "connected" in x and "vir" in x:
-#                             continue
-#                         else:
-#                             interface_list = x.split()
-#                             connected_ssid = interface_list[-1].strip()
-#                             self.INTERFACE_SELECTED = connected_ssid
-#                             return connected_ssid
-
-#                         # print(x)
-#                 # if ssid_line:
-#                     # ssid_list = ssid_line[0].split()
-#                     # self.connected_ssid = ssid_list[-1].strip()
-#                     # self.INTERFACE_SELECTED = self.connected_ssid
-#                     # return self.connected_ssid
-
-
-# # CharonDNSChanger()
+    print("[ - ] Please Install colorama package: python -m pip install colorama")
 
 
 class CharonDNSChanger:
@@ -312,7 +108,13 @@ class CharonDNSChanger:
         self.BACKUP_DIR = str(str(self.SCRIPT_DIR) +
                               DIRECTORY_SEPARATOR + 'backup')
 
-        self.initialize()
+    def initialize(self):
+        if (sys.platform.lower() != 'win32'):
+            if (not os.path.exists(self.BACKUP_DIR)):
+                try:
+                    os.makedirs(self.BACKUP_DIR)
+                except:
+                    pass
 
         if (not self.check_privilege()):
             print(AsciiArt.miniLogo)
@@ -328,7 +130,8 @@ class CharonDNSChanger:
             clear_screen()
             print(AsciiArt.Logo)
             if (globalConfig.OS == 'win'):
-                INFO(f'Primary network adapter: {CUSTOM_TEXT_COLOR}{self.getPrimaryInterface()}')
+                INFO(
+                    f'Primary network adapter: {CUSTOM_TEXT_COLOR}{self.getPrimaryInterface()}')
             INFO(f'Current DNS: {INPUTS_COLOR}{self.getCurrentDNS()}\n')
             print(Menu.MenuPrimary)
 
@@ -342,12 +145,10 @@ class CharonDNSChanger:
                 clear_screen()
                 print(AsciiArt.miniLogo)
                 if (customDNSResult):
-                    SUCCESS('Custom DNS applied successfully')
-                    print()
+                    SUCCESS('Custom DNS applied successfully\n')
                     colorizeInput(INPUT(BACK2MENU_INPUT))
                 else:
-                    ERROR('Custom DNS could not be applied')
-                    print()
+                    ERROR('Custom DNS could not be applied\n')
                     colorizeInput(INPUT(BACK2MENU_INPUT))
 
             elif (choice == "98"):
@@ -357,30 +158,33 @@ class CharonDNSChanger:
                 clear_screen()
                 print(AsciiArt.miniLogo)
                 if (resetDNSResult):
-                    SUCCESS('Automatic DNS (DHCP) applied successfully')
-                    print()
+                    SUCCESS('Automatic DNS (DHCP) applied successfully\n')
                     colorizeInput(INPUT(BACK2MENU_INPUT))
                 else:
-                    ERROR('Failed to apply automatic DNS (DHCP)')
-                    print()
+                    ERROR('Failed to apply automatic DNS (DHCP)\n')
                     colorizeInput(INPUT(BACK2MENU_INPUT))
             elif (choice == "99"):
                 clear_screen()
                 print(AsciiArt.Logo)
-                WARNING('Program terminated!')
+                WARNING('Program Terminated!')
                 sys.exit(1)
             elif (otherChoices):
-                DNS_CONFIG = self.getDNS(otherChoices)
-                print(DNS_CONFIG)
-                input()
-
-    def initialize(self):
-        if (sys.platform.lower() != 'win32'):
-            if (not os.path.exists(self.BACKUP_DIR)):
-                try:
-                    os.makedirs(self.BACKUP_DIR)
-                except:
-                    pass
+                index1, index2 = self.getDNS(otherChoices)
+                if (index1 and index2):
+                    listSelectedResult = self.setDNS(index1, index2)
+                    clear_screen()
+                    print(AsciiArt.miniLogo)
+                    if (listSelectedResult):
+                        SUCCESS(f'"{otherChoices}" applied successfully\n')
+                        colorizeInput(INPUT(BACK2MENU_INPUT))
+                    else:
+                        ERROR(f'Failed to apply "{otherChoices}"\n')
+                        colorizeInput(INPUT(BACK2MENU_INPUT))
+            else:
+                clear_screen()
+                print(AsciiArt.Logo)
+                ERROR('Invalid input. Please select [01-99] (e.g, 04)\n')
+                colorizeInput(INPUT(BACK2MENU_INPUT))
 
     def check_os(self):
         return ('win' if (sys.platform.lower() == 'win32')
@@ -403,10 +207,12 @@ class CharonDNSChanger:
             return
 
         try:
-            netsh_results = subprocess.getoutput('netsh interface show interface').splitlines()
+            netsh_results = subprocess.getoutput(
+                'netsh interface show interface').splitlines()
 
-            netsh_results = [line.strip() for line in netsh_results if line.strip()]
-            
+            netsh_results = [line.strip()
+                             for line in netsh_results if line.strip()]
+
             for line in netsh_results:
                 columns = line.split()
                 if 'Admin' in columns or 'State' in columns:
@@ -419,13 +225,14 @@ class CharonDNSChanger:
                     return interface_name
         except:
             return 'UNKNOWN'
-    
+
     def getCurrentDNS(self):
         dns_list = []
 
         if (globalConfig.OS == "win"):
             try:
-                netsh_output = subprocess.getoutput("netsh interface ip show dns").splitlines()
+                netsh_output = subprocess.getoutput(
+                    "netsh interface ip show dns").splitlines()
                 for line in netsh_output:
                     match = re.search(r"(\d{1,3}(?:\.\d{1,3}){3})", line)
                     if match:
@@ -445,18 +252,15 @@ class CharonDNSChanger:
                                 dns_list.append(parts[1])
             except:
                 return (f"Can't read /etc/resolv.conf")
-                
+
         return ", ".join(dns_list)
 
     def getDNS(self, name: str):
         indexes = config.DNS_DICTIONARY.get(name)
         try:
-            return [
-                indexes.get('index1'),
-                indexes.get('index2')
-            ]
+            return indexes.get('index1'), indexes.get('index2')
         except AttributeError:
-            return []
+            return (None, None)
 
     def setDNS(self, primaryDNS: str, secondaryDNS: str):
         if (globalConfig.OS == 'win'):
@@ -524,4 +328,6 @@ class CharonDNSChanger:
         return False
 
 
-CharonDNSChanger()
+if __name__ == '__main__':
+    ChDNSChanger = CharonDNSChanger()
+    ChDNSChanger.initialize()
