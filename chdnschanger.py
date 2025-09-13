@@ -183,7 +183,7 @@ class CharonDNSChanger:
             else:
                 clear_screen()
                 print(AsciiArt.Logo)
-                ERROR('Invalid input. Please select [01-99] (e.g, 04)\n')
+                ERROR('Invalid input. Please select from options [01-99] (e.g, 04)\n')
                 colorizeInput(INPUT(BACK2MENU_INPUT))
 
     def check_os(self):
