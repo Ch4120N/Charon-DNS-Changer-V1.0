@@ -45,7 +45,7 @@ git clone https://github.com/Ch4120N/Charon-DNS-Changer.git
 chmod 755 -R Charon-DNS-Changer
 cd Charon-DNS-Changer
 python3 -m pip install -r requirements.txt
-python3 ChDNSChanger.py
+sudo python3 ChDNSChanger.py
 ```
 
 ### For Windows
