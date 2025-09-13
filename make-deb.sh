@@ -39,7 +39,7 @@ Version: ${_VERSION}
 Architecture: ${_ARCH}
 Maintainer: @Ch4120N
 Depends: ${_depend}
-Homepage: https://github.com/Ch4120N/Charon-DNS-Changer-V1.0
+Homepage: https://github.com/Ch4120N/Charon-DNS-Changer
 Description: Easily change DNS by typing a number.
 CONTROL_EOF
 
