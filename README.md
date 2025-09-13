@@ -13,6 +13,7 @@
   <p><code><strong>Charon DNS Changer</strong></code> is a powerful cross-platform tool designed to simplify DNS management on Windows and Linux. It allows users to view current DNS settings, switch between predefined DNS servers, set custom primary and secondary DNS addresses, and easily restore automatic DHCP configuration. With built-in validation, backup support, and an interactive menu, it ensures secure and efficient DNS configuration for both casual users and advanced system administrators</p>
 </div>
 
+
 ## Project Programmer
 
 > Ch4120N - Ch4120N@Proton.me
