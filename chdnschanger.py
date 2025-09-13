@@ -1,4 +1,5 @@
 #!/bin/python3
+# -*- coding: utf-8 -*-
 
 """
   Charon DNS Changer 	    : 	Easy Changing DNS (Windows/Linux)
