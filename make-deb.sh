@@ -55,11 +55,11 @@ chmod 755 build_env/DEBIAN/prerm
 chmod 644 build_env/DEBIAN/control
 
 # Copy launcher script
-cp -f scripts/launch.sh "build_env/${_bin_dir}/chdnschanger"
-chmod 755 "build_env/${_bin_dir}/chdnschanger"
+cp -f scripts/launch.sh "build_env/${_bin_dir}/ChDNSChanger"
+chmod 755 "build_env/${_bin_dir}/ChDNSChanger"
 
 # Copy program files
-cp -fr .imgs/ log/ modules/ LICENCE README.md ChDNSChanger.py requirements.txt "build_env/${_opt_dir}"
+cp -fr images/ modules/ LICENCE README.md ChDNSChanger.py requirements.txt "build_env/${_opt_dir}"
 
 # Build the .deb package
 dpkg-deb --build build_env "${PKG_NAME}"
@@ -67,4 +67,4 @@ dpkg-deb --build build_env "${PKG_NAME}"
 # Cleanup
 rm -rf build_env
 
-echo "Package ${PKG_NAME} created successfully!"
+echo "[ + ] Package ${PKG_NAME} created successfully!"
