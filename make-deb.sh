@@ -1,52 +1,70 @@
 #!/bin/bash
 
 # Make Deb Package for Charon-DNS-Changer (^.^)
-_PACKAGE=Charon-DNS-Changer
-_DIR=Charon-DNS-Changer-V1.0
-_VERSION=2.4.1
+
+_PACKAGE="Charon-DNS-Changer"
+_DIR="Charon-DNS-Changer-V1.0"
+_VERSION="2.4.1"
 _ARCH="all"
 PKG_NAME="${_PACKAGE}_${_VERSION}_${_ARCH}.deb"
 
+# Check if launch.sh exists
 if [[ ! -e "scripts/launch.sh" ]]; then
-        echo "lauch.sh should be in the \`scripts\` Directory. Exiting..."
-        exit 1
+    echo "launch.sh should be in the \`scripts\` directory. Exiting..."
+    exit 1
 fi
 
-if [[ ${1,,} == "termux" || $(uname -o) == *'Android'* ]];then
-        _depend="ncurses-utils, proot, resolv-conf, "
-        _bin_dir="data/data/com.termux/files/"
-        _opt_dir="data/data/com.termux/files/usr/"
-        #PKG_NAME=${_PACKAGE}_${_VERSION}_${_ARCH}_termux.deb
+# Termux-specific adjustments
+if [[ "${1,,}" == "termux" || $(uname -o 2>/dev/null) == *'Android'* ]]; then
+    _depend="ncurses-utils, proot, resolv-conf, "
+    _bin_dir="data/data/com.termux/files/usr/bin"
+    _opt_dir="data/data/com.termux/files/usr/opt/${_DIR}"
+    # PKG_NAME="${_PACKAGE}_${_VERSION}_${_ARCH}_termux.deb"
+else
+    _bin_dir="usr/bin"
+    _opt_dir="opt/${_DIR}"
 fi
 
+# Common dependencies
 _depend+="python3-full, python3-pip, python3-colorama"
-_bin_dir+="usr/bin"
-_opt_dir+="opt/${_DIR}"
 
-if [[ -d "build_env" ]]; then rm -fr build_env; fi
-mkdir -p build_env
-mkdir -p ./build_env/${_bin_dir} ./build_env/$_opt_dir ./build_env/DEBIAN 
+# Prepare build environment
+if [[ -d "build_env" ]]; then rm -rf build_env; fi
+mkdir -p "build_env/${_bin_dir}" "build_env/${_opt_dir}" "build_env/DEBIAN"
 
-cat <<- CONTROL_EOF > ./build_env/DEBIAN/control
+# Create DEBIAN/control file
+cat << CONTROL_EOF > build_env/DEBIAN/control
 Package: ${_DIR}
 Version: ${_VERSION}
 Architecture: ${_ARCH}
 Maintainer: @Ch4120N
 Depends: ${_depend}
 Homepage: https://github.com/Ch4120N/Charon-DNS-Changer-V1.0
-Description: Changing DNS very easy with type a number.
+Description: Easily change DNS by typing a number.
 CONTROL_EOF
 
-cat <<- PRERM_EOF > ./build_env/DEBIAN/prerm
+# Create DEBIAN/prerm file
+cat << PRERM_EOF > build_env/DEBIAN/prerm
 #!/bin/bash
-rm -fr $_opt_dir
+rm -rf ${_opt_dir}
 exit 0
 PRERM_EOF
 
-chmod 755 ./build_env/DEBIAN
-chmod 755 ./build_env/DEBIAN/{control,prerm}
-cp -fr scripts/launch.sh ./build_env/$_bin_dir/chdnschanger
-chmod 755 ./build_env/$_bin_dir/chdnschanger
-cp -fr .imgs/ log/ modules/ LICENCE README.md chdnschanger.py requirements.txt Settings.json ./build_env/$_opt_dir
-dpkg-deb --build ./build_env ${PKG_NAME}
-rm -fr ./build_env
+# Set permissions
+chmod 755 build_env/DEBIAN/prerm
+chmod 644 build_env/DEBIAN/control
+
+# Copy launcher script
+cp -f scripts/launch.sh "build_env/${_bin_dir}/chdnschanger"
+chmod 755 "build_env/${_bin_dir}/chdnschanger"
+
+# Copy program files
+cp -fr .imgs/ log/ modules/ LICENCE README.md chdnschanger.py requirements.txt Settings.json "build_env/${_opt_dir}"
+
+# Build the .deb package
+dpkg-deb --build build_env "${PKG_NAME}"
+
+# Cleanup
+rm -rf build_env
+
+echo "Package ${PKG_NAME} created successfully!"
