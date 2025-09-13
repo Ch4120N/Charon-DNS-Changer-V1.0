@@ -379,13 +379,14 @@ class CharonDNSChanger:
             # Construct Linux DNS update commands
             query1 = f'echo "{generatedInfo}" > {config.LINUX_DNS_CONFIG_PATH}'
             query2 = f'echo "nameserver {primaryDNS}" >> {config.LINUX_DNS_CONFIG_PATH}'
-            query3 = f'echo "nameserver {primaryDNS}" >> {config.LINUX_DNS_CONFIG_PATH}'
+            query3 = f'echo "nameserver {secondaryDNS}" >> {config.LINUX_DNS_CONFIG_PATH}'
 
             linuxResult = execute(f"{query1} && {query2} && {query3}")
 
             if linuxResult:
                 return True
             return False
+
 
     def resetDNS2DHCP(self):
         """
