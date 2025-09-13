@@ -22,7 +22,7 @@ def SUCCESS(message: str):
         message: CUSTOM_TEXT_COLOR
     """
     sys.stdout.write(
-        f'{BRACKETS_COLOR}[ {CUSTOM_TEXT_COLOR}+ {BRACKETS_COLOR}]{CUSTOM_TEXT_COLOR} ' +
+        f'  {BRACKETS_COLOR}[ {CUSTOM_TEXT_COLOR}+ {BRACKETS_COLOR}]{CUSTOM_TEXT_COLOR} ' +
         message + f'\n{FOREGROUND_RESET}'  # Reset colors after message
     )
     sys.stdout.flush()  # Ensure message is immediately displayed
@@ -39,7 +39,7 @@ def ERROR(message: str):
         message: TEXTS_COLOR
     """
     sys.stdout.write(
-        f'{BRACKETS_COLOR}[ {TEXTS_COLOR}- {BRACKETS_COLOR}]{TEXTS_COLOR} ' +
+        f'  {BRACKETS_COLOR}[ {TEXTS_COLOR}- {BRACKETS_COLOR}]{TEXTS_COLOR} ' +
         message + f'\n{FOREGROUND_RESET}'
     )
     sys.stdout.flush()
@@ -56,7 +56,7 @@ def INFO(message: str):
         message: DEFAULT_SUB_BANNER_COLOR (white)
     """
     sys.stdout.write(
-        f'{BRACKETS_COLOR}[ {CUSTOM_COLOR}# {BRACKETS_COLOR}]{DEFAULT_SUB_BANNER_COLOR} ' +
+        f'  {BRACKETS_COLOR}[ {CUSTOM_COLOR}# {BRACKETS_COLOR}]{DEFAULT_SUB_BANNER_COLOR} ' +
         message + f'\n{FOREGROUND_RESET}'
     )
     sys.stdout.flush()
@@ -73,7 +73,7 @@ def WARNING(message: str):
         message: NUMBERS_COLOR
     """
     sys.stdout.write(
-        f'{BRACKETS_COLOR}[ {NUMBERS_COLOR}! {BRACKETS_COLOR}]{NUMBERS_COLOR} ' +
+        f'  {BRACKETS_COLOR}[ {NUMBERS_COLOR}! {BRACKETS_COLOR}]{NUMBERS_COLOR} ' +
         message + f'\n{FOREGROUND_RESET}'
     )
     sys.stdout.flush()
@@ -93,6 +93,6 @@ def INPUT(message: str):
         str: Formatted prompt ready to pass to input() function
     """
     return (
-        f'{BRACKETS_COLOR}[ {INPUTS_COLOR}> {BRACKETS_COLOR}]{DEFAULT_SUB_BANNER_COLOR} ' +
+        f'  {BRACKETS_COLOR}[ {INPUTS_COLOR}> {BRACKETS_COLOR}]{DEFAULT_SUB_BANNER_COLOR} ' +
         message + FOREGROUND_RESET
     )
